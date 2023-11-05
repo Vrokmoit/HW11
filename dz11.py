@@ -36,15 +36,15 @@ class Birthday(Field):
 
     @value.setter
     def value(self, birthday):
-        if birthday is not None and not Birthday.validate_birthday(birthday):
+        if birthday is not None and not self.validate_birthday(birthday):
             raise ValueError("Invalid birthday format. Use YYYY-MM-DD")
         self._value = birthday
 
-    @staticmethod
-    def validate_birthday(birthday):
+    def validate_birthday(self, birthday):
         try:
             datetime.strptime(birthday, "%Y-%m-%d")
-            return True
+            year, month, day = map(int, birthday.split("-"))
+            return (1900 <= year <= 2023 and 1 <= month <= 12 and 1 <= day <= 31)
         except ValueError:
             return False
 
